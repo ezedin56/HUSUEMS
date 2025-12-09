@@ -1,0 +1,281 @@
+/* assets/style.css */
+
+/* Variables */
+:root {
+    --primary: #007bff;
+    --primary-dark: #0056b3;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --white: #ffffff;
+    --bg-color: #f0f2f5;
+    --card-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --border-radius: 8px;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Base Reset */
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    color: var(--dark);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Layout Containers */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.auth-box {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Sidebar Layout (Admin) */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background: var(--dark);
+    color: var(--white);
+    padding: 20px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    color: var(--white);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #495057;
+}
+
+.sidebar a {
+    display: block;
+    color: #ced4da;
+    padding: 12px 15px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: var(--bg-color);
+    overflow-y: auto;
+}
+
+/* Forms & Inputs */
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+textarea, 
+select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.15s;
+}
+
+input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 4px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-primary { background-color: var(--primary); color: white; }
+.btn-primary:hover { background-color: var(--primary-dark); text-decoration: none; }
+
+.btn-success { background-color: var(--success); color: white; }
+.btn-success:hover { background-color: #218838; text-decoration: none; }
+
+.btn-danger { background-color: var(--danger); color: white; }
+.btn-danger:hover { background-color: #c82333; text-decoration: none; }
+
+.btn-secondary { background-color: var(--secondary); color: white; }
+.btn-secondary:hover { background-color: #5a6268; text-decoration: none; }
+
+.btn-block { display: block; width: 100%; }
+
+/* Cards */
+.card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.25rem;
+}
+
+/* Tables */
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+    background: var(--white);
+}
+
+th, td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    text-align: left;
+}
+
+thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #e9ecef;
+}
+
+/* Utilities */
+.text-center { text-align: center; }
+.mt-3 { margin-top: 1rem; }
+.mb-3 { margin-bottom: 1rem; }
+.d-flex { display: flex; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+.gap-2 { gap: 0.5rem; }
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+.alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+.alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+
+/* Dashboard Widgets */
+.stat-box {
+    display: inline-block;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    color: white;
+    min-width: 200px;
+    text-align: center;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+}
+.stat-box.blue { background-color: var(--primary); }
+.stat-box.green { background-color: var(--success); }
+.stat-box .stat-number { font-size: 2.5rem; font-weight: bold; display: block; }
+.stat-box .stat-label { font-size: 1rem; opacity: 0.9; }
+
+/* Voting Page Specifics */
+.election-card {
+    background: var(--white);
+    border-left: 5px solid var(--primary);
+    margin-bottom: 20px;
+}
+
+.candidate-option-label {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #eee;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.candidate-option-label:hover {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.candidate-option-label input {
+    margin-right: 15px;
+    transform: scale(1.2);
+}
+
+.tracking-code {
+    font-family: 'Courier New', Courier, monospace;
+    background: #e9ecef;
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    border: 1px dashed #ced4da;
+    display: inline-block;
+    margin: 10px 0;
+}
