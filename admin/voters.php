@@ -31,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         $file = fopen($_FILES['csv_file']['tmp_name'], 'r');
         $count = 0;
         while (($row = fgetcsv($file)) !== FALSE) {
-            // Assume CSV format: Student ID, Full Name
             if (count($row) >= 2) {
                 $sid = sanitizeInput($row[0]);
                 $name = sanitizeInput($row[1]);
@@ -40,9 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                         $stmt = $pdo->prepare("INSERT IGNORE INTO voters (student_id, full_name) VALUES (?, ?)");
                         $stmt->execute([$sid, $name]);
                         $count++;
-                    } catch (Exception $e) {
-                        // Ignore duplicates or errors
-                    }
+                    } catch (Exception $e) { }
                 }
             }
         }
@@ -60,64 +57,80 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
-// Fetch Voters (Limit 50 for display)
+// Fetch Voters
 $stmt = $pdo->query("SELECT * FROM voters ORDER BY created_at DESC LIMIT 50");
 $voters = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Manage Voters</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Voters | HUSUEMS</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        .nav-voters { background: rgba(255, 255, 255, 0.1); border-left-color: var(--accent); color: white; }
+    </style>
 </head>
-
 <body>
 
-    <div class="admin-layout">
-        <div class="sidebar">
-            <h2>Election Admin</h2>
-            <a href="index.php">Dashboard</a>
-            <a href="elections.php">Manage Elections</a>
-            <a href="candidates.php">Manage Candidates</a>
-            <a href="voters.php" class="active">Manage Voters</a>
-            <a href="../index.php" target="_blank">View Public Site</a>
-            <a href="logout.php">Logout</a>
+<div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            🗳️ Election Admin
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.php">📊 Dashboard</a>
+            <a href="elections.php">🗳️ Manage Elections</a>
+            <a href="candidates.php">👥 Manage Candidates</a>
+            <a href="voters.php" class="nav-voters">🎓 Manage Voters</a>
+            <a href="../index.php" target="_blank">🌐 View Public Site</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="logout.php" class="btn-logout" style="text-align: center; display: block;">Logout</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Manage Voters</h1>
         </div>
 
-        <div class="main-content">
-            <h1>Manage Voters</h1>
-            <?php if ($message): ?>
-                <div class="alert alert-success"><?php echo $message; ?></div>
-            <?php endif; ?>
+        <?php if ($message): ?>
+            <div class="alert alert-success"><?php echo htmlspecialchars($message); ?></div>
+        <?php endif; ?>
 
-            <div class="d-flex gap-2 mb-3" style="flex-wrap: wrap;">
-                <div class="card" style="flex: 1; min-width: 300px;">
-                    <h3>Add Single Voter</h3>
-                    <form action="" method="POST">
-                        <input type="hidden" name="action" value="add">
-                        <input type="text" name="student_id" placeholder="Student ID" required>
-                        <input type="text" name="full_name" placeholder="Full Name" required>
-                        <button type="submit" class="btn btn-primary btn-block">Add Voter</button>
-                    </form>
-                </div>
-
-                <div class="card" style="flex: 1; min-width: 300px;">
-                    <h3>Import CSV</h3>
-                    <p class="text-muted"><small>Format: StudentID, FullName (No header)</small></p>
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="upload">
-                        <input type="file" name="csv_file" required style="margin-bottom: 10px;">
-                        <br>
-                        <button type="submit" class="btn btn-secondary btn-block">Upload CSV</button>
-                    </form>
-                </div>
+        <div class="dashboard-grid">
+            <!-- Card: Add Voter -->
+            <div class="card">
+                <h3>Add Single Voter</h3>
+                <form action="" method="POST">
+                    <input type="hidden" name="action" value="add">
+                    <input type="text" name="student_id" placeholder="Student ID" required>
+                    <input type="text" name="full_name" placeholder="Full Name" required>
+                    <button type="submit" class="btn-primary">Add Voter</button>
+                </form>
             </div>
 
-            <h3>Recent Voters (Showing last 50)</h3>
-            <div class="card table-responsive">
+            <!-- Card: Import CSV -->
+            <div class="card">
+                <h3>Import CSV</h3>
+                <p class="text-muted" style="margin-bottom: 1rem;"><small>Format: StudentID, FullName (No header)</small></p>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="upload">
+                    <input type="file" name="csv_file" required style="margin-bottom: 1rem; width: 100%;">
+                    <button type="submit" class="btn-primary" style="background-color: var(--secondary);">Upload CSV</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Recent Voters</h3>
+            <div class="table-responsive">
                 <table>
                     <thead>
                         <tr>
@@ -134,8 +147,7 @@ $voters = $stmt->fetchAll();
                                 <td><?php echo htmlspecialchars($voter['student_id']); ?></td>
                                 <td><?php echo htmlspecialchars($voter['full_name']); ?></td>
                                 <td>
-                                    <a href="?delete=<?php echo $voter['voter_id']; ?>" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Delete this voter?');">Delete</a>
+                                    <a href="?delete=<?php echo $voter['voter_id']; ?>" class="btn-logout" style="background: var(--danger); border: none; padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="return confirm('Delete this voter?');">Delete</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -143,8 +155,9 @@ $voters = $stmt->fetchAll();
                 </table>
             </div>
         </div>
-    </div>
+    </main>
+
+</div>
 
 </body>
-
 </html>

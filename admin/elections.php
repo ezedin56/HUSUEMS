@@ -48,96 +48,104 @@ $elections = $stmt->fetchAll();
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Manage Elections</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Elections | HUSUEMS</title>
     <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        .nav-elections { background: rgba(255, 255, 255, 0.1); border-left-color: var(--accent); color: white; }
+    </style>
 </head>
-
 <body>
 
-    <div class="admin-layout">
-        <div class="sidebar">
-            <h2>Election Admin</h2>
-            <a href="index.php">Dashboard</a>
-            <a href="elections.php" class="active">Manage Elections</a>
-            <a href="candidates.php">Manage Candidates</a>
-            <a href="voters.php">Manage Voters</a>
-            <a href="../index.php" target="_blank">View Public Site</a>
-            <a href="logout.php">Logout</a>
+<div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            🗳️ Election Admin
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.php">📊 Dashboard</a>
+            <a href="elections.php" class="nav-elections">🗳️ Manage Elections</a>
+            <a href="candidates.php">👥 Manage Candidates</a>
+            <a href="voters.php">🎓 Manage Voters</a>
+            <a href="../index.php" target="_blank">🌐 View Public Site</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="logout.php" class="btn-logout" style="text-align: center; display: block;">Logout</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1>Manage Elections</h1>
         </div>
 
-        <div class="main-content">
-            <h1>Manage Elections</h1>
-            <?php if ($message): ?>
-                <div class="alert alert-success"><?php echo $message; ?></div>
-            <?php endif; ?>
+        <?php if ($message): ?>
+            <div class="alert alert-success"><?php echo $message; ?></div>
+        <?php endif; ?>
 
-            <div class="card">
-                <h3>Create New Election</h3>
-                <form action="" method="POST" class="d-flex gap-2">
-                    <input type="hidden" name="action" value="create">
-                    <input type="text" name="title" placeholder="Election Title" required
-                        style="flex: 2; margin-bottom: 0;">
-                    <input type="text" name="description" placeholder="Description (Optional)"
-                        style="flex: 3; margin-bottom: 0;">
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Create</button>
-                </form>
-            </div>
+        <div class="card">
+            <h3>Create New Election</h3>
+            <form action="" method="POST" class="d-flex" style="gap: 1rem; flex-wrap: wrap;">
+                <input type="hidden" name="action" value="create">
+                <input type="text" name="title" placeholder="Election Title" required style="flex: 2; min-width: 200px;">
+                <input type="text" name="description" placeholder="Description (Optional)" style="flex: 3; min-width: 200px;">
+                <button type="submit" class="btn-primary" style="flex: 1; min-width: 100px;">Create</button>
+            </form>
+        </div>
 
-            <h3>Existing Elections</h3>
-            <div class="card table-responsive">
-                <table>
-                    <thead>
+        <h3>Existing Elections</h3>
+        <div class="card table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="50">ID</th>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($elections as $election): ?>
                         <tr>
-                            <th width="50">ID</th>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($elections as $election): ?>
-                            <tr>
-                                <td><?php echo $election['election_id']; ?></td>
-                                <td>
-                                    <strong><?php echo htmlspecialchars($election['title']); ?></strong><br>
-                                    <small
-                                        class="text-muted"><?php echo htmlspecialchars($election['description']); ?></small>
-                                </td>
-                                <td>
-                                    <?php
-                                    $statusColor = $election['status'] == 'active' ? '#28a745' : ($election['status'] == 'closed' ? '#dc3545' : '#6c757d');
-                                    ?>
-                                    <span
-                                        style="padding: 4px 8px; border-radius: 4px; color: white; background: <?php echo $statusColor; ?>">
-                                        <?php echo ucfirst($election['status']); ?>
-                                    </span>
-                                </td>
-                                <td>
+                            <td><?php echo $election['election_id']; ?></td>
+                            <td>
+                                <strong><?php echo htmlspecialchars($election['title']); ?></strong><br>
+                                <small class="text-muted"><?php echo htmlspecialchars($election['description']); ?></small>
+                            </td>
+                            <td>
+                                <?php
+                                $statusColor = $election['status'] == 'active' ? '#28a745' : ($election['status'] == 'closed' ? '#dc3545' : '#6c757d');
+                                ?>
+                                <span style="padding: 4px 8px; border-radius: 4px; color: white; background: <?php echo $statusColor; ?>; font-size: 0.85rem;">
+                                    <?php echo ucfirst($election['status']); ?>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2">
                                     <?php if ($election['status'] !== 'active'): ?>
-                                        <a href="?id=<?php echo $election['election_id']; ?>&status=active"
-                                            class="btn btn-success btn-sm">Activate</a>
+                                        <a href="?id=<?php echo $election['election_id']; ?>&status=active" class="btn-primary" style="background: var(--success); text-decoration: none; padding: 0.25rem 0.5rem; font-size: 0.8rem;">Activate</a>
                                     <?php else: ?>
-                                        <a href="?id=<?php echo $election['election_id']; ?>&status=closed"
-                                            class="btn btn-danger btn-sm">Close</a>
+                                        <a href="?id=<?php echo $election['election_id']; ?>&status=closed" class="btn-primary" style="background: var(--danger); text-decoration: none; padding: 0.25rem 0.5rem; font-size: 0.8rem;">Close</a>
                                     <?php endif; ?>
 
-                                    <a href="candidates.php?election_id=<?php echo $election['election_id']; ?>"
-                                        class="btn btn-primary btn-sm">Candidates</a>
-                                    <a href="?delete=<?php echo $election['election_id']; ?>"
-                                        class="btn btn-secondary btn-sm"
-                                        onclick="return confirm('Are you sure?');">Delete</a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                                    <a href="candidates.php?election_id=<?php echo $election['election_id']; ?>" class="btn-primary" style="text-decoration: none; padding: 0.25rem 0.5rem; font-size: 0.8rem;">Candidates</a>
+                                    
+                                    <a href="?delete=<?php echo $election['election_id']; ?>" class="btn-primary" style="background: var(--text-light); text-decoration: none; padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="return confirm('Delete this election?');">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
-    </div>
+    </main>
+
+</div>
 
 </body>
-
 </html>

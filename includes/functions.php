@@ -38,6 +38,23 @@ function hasVoted($pdo, $election_id, $student_id)
 }
 
 /**
+ * Check if a student has already voted for a specific position in an election.
+ *
+ * @param PDO $pdo
+ * @param int $election_id
+ * @param string $student_id
+ * @param string $position
+ * @return bool
+ */
+function hasVotedForPosition($pdo, $election_id, $student_id, $position)
+{
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM votes WHERE election_id = ? AND student_id = ? AND position = ?");
+    $stmt->execute([$election_id, $student_id, $position]);
+
+    return $stmt->fetchColumn() > 0;
+}
+
+/**
  * Generate a unique tracking code.
  *
  * @return string
