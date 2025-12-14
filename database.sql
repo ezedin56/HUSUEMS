@@ -1,6 +1,6 @@
 -- Database: election_system
 
-CREATE KEY IF NOT EXISTS `election_system`;
+CREATE DATABASE IF NOT EXISTS `election_system`;
 USE `election_system`;
 
 -- Admin Table

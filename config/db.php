@@ -4,7 +4,7 @@
 $host = 'localhost';
 $db   = 'election_system';
 $user = 'root';
-$pass = '';
+$pass = 'Sultan@3141';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";

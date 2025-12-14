@@ -35,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="auth-container">
         <div class="auth-box">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🗳️</div>
-            <h2>Public Election System</h2>
-            <p class="mb-3">Haramaya University</p>
+            <div class="auth-logo">🗳️</div>
+            <h2 class="auth-title">Public Election System</h2>
+            <p class="auth-subtitle">Haramaya University</p>
 
             <?php if ($error): ?>
                 <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="" method="POST">
                 <input type="text" name="student_id" placeholder="Enter Student ID" required class="form-control">
                 <input type="text" name="full_name" placeholder="Enter Full Name" required class="form-control">
-                <button type="submit" class="btn btn-primary btn-block">Verify Identity</button>
+                <button type="submit" class="btn-primary">Verify Identity</button>
             </form>
         </div>
     </div>

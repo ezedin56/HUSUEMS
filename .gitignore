@@ -5,3 +5,10 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Local Dev & Helpers
+php.ini
+setup_db.php
+add_admin.php
+check_voters.php
+test_db.php
