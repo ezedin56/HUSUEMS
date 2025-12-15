@@ -1,6 +1,10 @@
 <?php
 session_start();
-require_once 'config/db.php';
+// If this is a simple GET to the root, send users to the modern login page.
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    header('Location: /login.html');
+    exit;
+}
 require_once 'includes/functions.php';
 
 $error = '';
@@ -9,14 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student_id = sanitizeInput($_POST['student_id']);
     $full_name = sanitizeInput($_POST['full_name']);
 
-    if (verifyVoter($pdo, $student_id, $full_name)) {
-        $_SESSION['voter_verified'] = true;
-        $_SESSION['student_id'] = $student_id;
-        $_SESSION['full_name'] = $full_name;
-        header('Location: vote.php');
-        exit;
-    } else {
-        $error = "Verification failed. Please check your details.";
+    // Load DB only when verification is requested. Wrap in try/catch so
+    // missing PDO drivers or misconfiguration don't break the login page.
+    try {
+        require_once 'config/db.php';
+
+        if (verifyVoter($pdo, $student_id, $full_name)) {
+            $_SESSION['voter_verified'] = true;
+            $_SESSION['student_id'] = $student_id;
+            $_SESSION['full_name'] = $full_name;
+            header('Location: vote.php');
+            exit;
+        } else {
+            $error = "Verification failed. Please check your details.";
+        }
+    } catch (Exception $e) {
+        // Do not expose internals. Provide a friendly message and allow the
+        // login form to render so users can still see the page.
+        $error = "Server configuration error. Please contact the election administrator.";
     }
 }
 ?>

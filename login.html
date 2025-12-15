@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Haramaya University — Election Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/login.css">
+</head>
+<body>
+  <main class="page-bg">
+    <section class="center-wrap">
+      <div class="card">
+        <header class="card-header">
+          <div class="logo-wrap" aria-hidden="true">
+            <svg viewBox="0 0 100 24" class="logo" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <rect width="100" height="24" fill="none"/>
+              <text x="0" y="17" font-family="Inter, sans-serif" font-size="12" fill="#0b66ff" font-weight="700">HARAMAYA</text>
+              <text x="64" y="17" font-family="Inter, sans-serif" font-size="10" fill="#0b66ff">UNIVERSITY</text>
+            </svg>
+          </div>
+          <h1 class="title">Student Election Login</h1>
+          <p class="subtitle">Verify your identity to access the voting portal</p>
+        </header>
+
+        <form class="login-form" action="vote.php" method="post" autocomplete="off">
+          <label class="field">
+            <span class="label-text">Student ID</span>
+            <input name="student_id" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 2025123456" required />
+          </label>
+
+          <label class="field">
+            <span class="label-text">Full Name</span>
+            <input name="full_name" type="text" placeholder="First Last" autocomplete="name" required />
+          </label>
+
+          <button class="btn-primary" type="submit">Verify Identity</button>
+
+          <p class="hint">Questions? Contact the election office at <a href="mailto:election@haramaya.edu.et">election@haramaya.edu.et</a></p>
+        </form>
+
+      </div>
+
+      <footer class="small-print">Haramaya University © <span id="year"></span></footer>
+    </section>
+  </main>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
