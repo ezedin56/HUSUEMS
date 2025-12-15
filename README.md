@@ -260,6 +260,6 @@ For support and questions:
 - **System Overview:** See `system_overview.md`
 - **Online Deployment:** See `infinityfree_deployment.md`
 
----
+
 
 **Made with ❤️ for Haramaya University Student Union**
