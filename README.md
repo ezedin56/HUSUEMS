@@ -130,7 +130,7 @@ HUSUEMS/
 ## 🔧 Configuration
 
 ### Database Configuration
-Edit `config/db.php` to set your database credentials.
+Edit `config/db.php` to set your database credential.
 
 ### Admin Account
 Create admin account by visiting `/add_admin.php` (delete after use).
